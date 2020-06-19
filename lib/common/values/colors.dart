@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 class AppColors {
   /// 主背景 白色
   static const Color primaryBackground = Color.fromARGB(255, 255, 255, 255);
@@ -25,4 +27,9 @@ class AppColors {
 
   /// 第三种控件-背景色 石墨色
   static const Color thirdElement = Color.fromARGB(255, 45, 45, 47);
+
+  // *****************************************
+
+// 输入框填充字体颜色
+  static const Color placeholderColor = Colors.black38;
 }
