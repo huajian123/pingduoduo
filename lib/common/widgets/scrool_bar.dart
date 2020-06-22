@@ -35,9 +35,6 @@ class ScroolbarWidget extends CustomPainter{
     var progress = _offsetRatio*size.width/2;
 
     canvas.drawLine(Offset(progress, 0), Offset(size.width/2+progress, 0), _offsetPaint);
-
-
-
   }
 
 

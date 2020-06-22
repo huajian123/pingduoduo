@@ -138,6 +138,7 @@ class _PopularProductState extends State<PopularProduct> {
       var position = _scrollController.position;
       setState(() {
         _offsetRatio = position.pixels / position.maxScrollExtent;
+        print(_offsetRatio);
       });
     });
 
@@ -199,11 +200,13 @@ class _PopularProductState extends State<PopularProduct> {
           ),
         ),
         Container(
-            child: Center(
-                child: CustomPaint(
-          painter: ScroolbarWidget(_offsetRatio),
-          size: Size(ScreenUtil().setWidth(200), ScreenUtil().setHeight(10)),
-        ))),
+          child: Center(
+            child: CustomPaint(
+              painter: ScroolbarWidget(_offsetRatio),
+              size: Size(200.w, 10.h),
+            ),
+          ),
+        ),
       ],
     );
   }
