@@ -138,7 +138,6 @@ class _PopularProductState extends State<PopularProduct> {
       var position = _scrollController.position;
       setState(() {
         _offsetRatio = position.pixels / position.maxScrollExtent;
-        print(_offsetRatio);
       });
     });
 
@@ -190,9 +189,10 @@ class _PopularProductState extends State<PopularProduct> {
             controller: _scrollController,
             scrollDirection: Axis.horizontal,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisSpacing: 30.w,
-                crossAxisCount: 2,
-                crossAxisSpacing: 10.w),
+              mainAxisSpacing: 30.w,
+              crossAxisCount: 2,
+              crossAxisSpacing: 10.w,
+            ),
             itemCount: navBarList.length,
             itemBuilder: (contxt, index) {
               return _buildNavItem(navBarList[index]);
