@@ -109,33 +109,44 @@ final List<NavEntity> navBarList = [
   ),
 ];
 
-class PopularProduct extends StatelessWidget {
+class PopularProduct extends StatefulWidget {
+  @override
+  _PopularProductState createState() => _PopularProductState();
+}
+
+class _PopularProductState extends State<PopularProduct> {
+  ScrollController _scrollController;
+
+  //这里有个坑，必须赋初始值
+  double _offsetRatio = 0;
+
+  @override
+  void initState() {
+    _scrollController = new ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _scrollController.addListener(() {
+      var position = _scrollController.position;
+      setState(() {
+        _offsetRatio = position.pixels / position.maxScrollExtent;
+      });
+    });
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          Container(
-            width: double.infinity,
-            height: 100.h,
-            decoration: BoxDecoration(),
-            child: _buildPingXiaoQuan(),
-          ),
+          _buildPingXiaoQuan(),
           SplitLine(),
-          Container(
-            width: double.infinity,
-            height: 250.h,
-            decoration: BoxDecoration(),
-            child: GridView.builder(
-              scrollDirection: Axis.horizontal,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, crossAxisSpacing: 10.w),
-              itemCount: navBarList.length,
-              itemBuilder: (contxt, index) {
-                return _buildNav(navBarList[index]);
-              },
-            ),
-          ),
+          _buildNav(),
           SplitLine(),
           Container(
             width: double.infinity,
@@ -168,7 +179,36 @@ class PopularProduct extends StatelessWidget {
   }
 
   // 导航
-  Widget _buildNav(NavEntity item) {
+  Widget _buildNav() {
+    return Column(
+      children: <Widget>[
+        Container(
+          width: double.infinity,
+          height: 250.h,
+          child: GridView.builder(
+            controller: _scrollController,
+            scrollDirection: Axis.horizontal,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisSpacing: 30.w,
+                crossAxisCount: 2,
+                crossAxisSpacing: 10.w),
+            itemCount: navBarList.length,
+            itemBuilder: (contxt, index) {
+              return _buildNavItem(navBarList[index]);
+            },
+          ),
+        ),
+        Container(
+            child: Center(
+                child: CustomPaint(
+          painter: ScroolbarWidget(_offsetRatio),
+          size: Size(ScreenUtil().setWidth(200), ScreenUtil().setHeight(10)),
+        ))),
+      ],
+    );
+  }
+
+  Widget _buildNavItem(NavEntity item) {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -189,24 +229,29 @@ class PopularProduct extends StatelessWidget {
     );
   }
 
+  // 拼小圈
   Widget _buildPingXiaoQuan() {
-    return GridTileBar(
-        leading: Image.asset(
-          "assets/images/weixin.png",
-          height: 50.h,
-        ),
-        title: Text(
-          "拼小圈",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
-        ),
-        trailing: Row(
-          children: <Widget>[
-            Text("查看好友动态"),
-            Icon(
-              Icons.keyboard_arrow_right,
-              color: AppColors.thirdElement,
-            )
-          ],
-        ));
+    return Container(
+      width: double.infinity,
+      height: 100.h,
+      child: GridTileBar(
+          leading: Image.asset(
+            "assets/images/weixin.png",
+            height: 50.h,
+          ),
+          title: Text(
+            "拼小圈",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
+          ),
+          trailing: Row(
+            children: <Widget>[
+              Text("查看好友动态"),
+              Icon(
+                Icons.keyboard_arrow_right,
+                color: AppColors.thirdElement,
+              )
+            ],
+          )),
+    );
   }
 }
