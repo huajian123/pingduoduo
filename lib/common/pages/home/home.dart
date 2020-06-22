@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pingduoduo/common/pages/home/tab_pages/popular_product.dart';
 import 'package:pingduoduo/common/utils/utils.dart';
 import 'package:pingduoduo/common/values/values.dart';
 import 'package:pingduoduo/common/widgets/widgets.dart';
@@ -24,7 +25,7 @@ class _HomeState extends State<Home>
         margin: EdgeInsets.symmetric(horizontal: 30.w),
         decoration: BoxDecoration(
             borderRadius: new BorderRadius.circular(10.0),
-            color: Colors.black12),
+            color: AppColors.secondaryElement),
         child: Stack(
           children: <Widget>[
             Center(
@@ -113,7 +114,7 @@ class _HomeState extends State<Home>
           child: TabBarView(
             controller: _tabController,
             children: <Widget>[
-              Text("期货数据"),
+              PopularProduct(),
               Text("价差指标"),
               Text("期货数据"),
               Text("价差指标"),
