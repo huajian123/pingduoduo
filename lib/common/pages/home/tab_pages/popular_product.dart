@@ -109,16 +109,20 @@ final List<NavEntity> navBarList = [
   ),
 ];
 
+
 class PopularProduct extends StatefulWidget {
   @override
   _PopularProductState createState() => _PopularProductState();
 }
 
-class _PopularProductState extends State<PopularProduct> {
+class _PopularProductState extends State<PopularProduct> with AutomaticKeepAliveClientMixin{
   ScrollController _scrollController;
 
   //这里有个坑，必须赋初始值
   ValueNotifier<double> _offsetRatio = ValueNotifier<double>(0);
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
