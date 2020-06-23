@@ -118,7 +118,7 @@ class _PopularProductState extends State<PopularProduct> {
   ScrollController _scrollController;
 
   //这里有个坑，必须赋初始值
-  double _offsetRatio = 0;
+  ValueNotifier<double> _offsetRatio = ValueNotifier<double>(0);
 
   @override
   void initState() {
@@ -136,9 +136,7 @@ class _PopularProductState extends State<PopularProduct> {
   Widget build(BuildContext context) {
     _scrollController.addListener(() {
       var position = _scrollController.position;
-      setState(() {
-        _offsetRatio = position.pixels / position.maxScrollExtent;
-      });
+      _offsetRatio.value = position.pixels / position.maxScrollExtent;
     });
 
     return SingleChildScrollView(
@@ -199,13 +197,18 @@ class _PopularProductState extends State<PopularProduct> {
             },
           ),
         ),
-        Container(
-          child: Center(
-            child: CustomPaint(
-              painter: ScroolbarWidget(_offsetRatio),
-              size: Size(200.w, 10.h),
-            ),
-          ),
+        ValueListenableBuilder(
+          valueListenable: _offsetRatio,
+          builder: (BuildContext context, double value, Widget child) {
+            return Container(
+              child: Center(
+                child: CustomPaint(
+                  painter: ScroolbarWidget(_offsetRatio.value),
+                  size: Size(200.w, 10.h),
+                ),
+              ),
+            );
+          },
         ),
       ],
     );
