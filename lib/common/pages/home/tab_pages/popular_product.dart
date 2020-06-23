@@ -205,6 +205,7 @@ class _PopularProductState extends State<PopularProduct> with AutomaticKeepAlive
           valueListenable: _offsetRatio,
           builder: (BuildContext context, double value, Widget child) {
             return Container(
+              padding: EdgeInsets.symmetric(vertical: 10.h),
               child: Center(
                 child: CustomPaint(
                   painter: ScroolbarWidget(_offsetRatio.value),
